@@ -13,6 +13,7 @@ if (Number.isNaN(port) || port <= 0) {
 }
 
 const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "my_resume";
+const repoOwner = process.env.GITHUB_REPOSITORY?.split("/")[0] ?? "nvalvenkina-beep";
 const basePath =
   process.env.BASE_PATH ??
   (process.env.GITHUB_ACTIONS ? `/${repoName}/` : "/");
