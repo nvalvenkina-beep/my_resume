@@ -5,6 +5,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 
+const getBasePath = () => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return base || "/";
+};
+
 const queryClient = new QueryClient();
 
 function Router() {
@@ -20,7 +25,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+        <WouterRouter base={getBasePath()}>
           <Router />
         </WouterRouter>
         <Toaster />
