@@ -115,6 +115,10 @@ const cardImageNameAliases: Record<string, string> = {
   "задача. опыт. результат": "file.png",
 };
 
+const normalizedCardImageNameAliases = Object.fromEntries(
+  Object.entries(cardImageNameAliases).map(([key, value]) => [normalizeSearch(key), value]),
+);
+
 const galleryFolderAliases: Record<string, string> = {
   "Профориентация для подростков": "proforient",
   "Субсидирование бизнеса": "_",
@@ -141,7 +145,7 @@ const galleryAliasMap = Object.fromEntries(
 
 const resolveCard = (needle: string) => {
   const normalizedNeedle = normalizeSearch(needle);
-  const alias = cardImageNameAliases[normalizedNeedle];
+  const alias = normalizedCardImageNameAliases[normalizedNeedle] ?? cardImageNameAliases[normalizedNeedle];
   if (alias && cardImages[alias]) {
     return cardImages[alias];
   }
