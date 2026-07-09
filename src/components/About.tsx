@@ -10,7 +10,6 @@ function Counter({ from = 0, to, suffix = "", duration = 2 }: { from?: number, t
   const spring = useSpring(from, {
     stiffness: 50,
     damping: 20,
-    duration: duration * 1000
   });
   
   useEffect(() => {
@@ -47,8 +46,8 @@ export default function About() {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-end gap-4 mb-8">
-              <span className="text-6xl font-display font-black text-primary leading-none">01.</span>
-              <h2 className="text-3xl font-display font-bold uppercase tracking-wider mb-1">Обо мне</h2>
+              <span className="text-4xl md:text-6xl font-display font-black text-primary leading-none">01.</span>
+              <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1">Обо мне</h2>
             </div>
           </motion.div>
 
