@@ -2,26 +2,24 @@ import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { nb } from "@/utils/typography";
 
-function Counter({ from = 0, to, suffix = "", duration = 2 }: { from?: number, to: number, suffix?: string, duration?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+function Counter({ from = 0, to, suffix = "", triggered }: { from?: number, to: number, suffix?: string, triggered: boolean }) {
   const [hasStarted, setHasStarted] = useState(false);
-  
+
   const spring = useSpring(from, {
     stiffness: 50,
     damping: 20,
   });
-  
+
   useEffect(() => {
-    if (inView && !hasStarted) {
+    if (triggered && !hasStarted) {
       spring.set(to);
       setHasStarted(true);
     }
-  }, [inView, spring, to, hasStarted]);
+  }, [triggered, spring, to, hasStarted]);
 
   const display = useTransform(spring, (current) => Math.round(current) + suffix);
 
-  return <motion.span ref={ref}>{display}</motion.span>;
+  return <motion.span>{display}</motion.span>;
 }
 
 export default function About() {
@@ -77,13 +75,13 @@ export default function About() {
             >
               <div>
                 <div className="text-5xl font-display font-black text-primary mb-2">
-                  <Counter to={2} suffix="+" />
+                  <Counter to={2} suffix="+" triggered={inView} />
                 </div>
                 <div className="text-sm uppercase tracking-widest text-gray-400">лет опыта в&nbsp;образовании</div>
               </div>
               <div>
                 <div className="text-5xl font-display font-black text-primary mb-2">
-                  <Counter to={10} suffix="+" />
+                  <Counter to={10} suffix="+" triggered={inView} />
                 </div>
                 <div className="text-sm uppercase tracking-widest text-gray-400">готовых проектов</div>
               </div>
