@@ -68,16 +68,22 @@ export default function About() {
             </div>
 
             <motion.div 
-              className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-8 pt-12 border-t border-white/10"
+              className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 pt-12 border-t border-white/10"
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <div>
                 <div className="text-5xl font-display font-black text-primary mb-2">
-                  <Counter to={2} suffix="+" triggered={inView} />
+                  <Counter to={1} suffix="+" triggered={inView} />
                 </div>
-                <div className="text-sm uppercase tracking-widest text-gray-400">лет опыта в&nbsp;образовании</div>
+                <div className="text-sm uppercase tracking-widest text-gray-400">год опыта в&nbsp;менеджменте</div>
+              </div>
+              <div>
+                <div className="text-5xl font-display font-black text-primary mb-2">
+                  <Counter to={1} suffix="+" triggered={inView} />
+                </div>
+                <div className="text-sm uppercase tracking-widest text-gray-400">год опыта в&nbsp;методологии онлайн-курсов</div>
               </div>
               <div>
                 <div className="text-5xl font-display font-black text-primary mb-2">

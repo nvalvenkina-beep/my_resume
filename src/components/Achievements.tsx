@@ -71,7 +71,7 @@ export default function Achievements() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              className="relative"
+              className="relative order-2 lg:order-1"
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.35 }}
@@ -85,6 +85,7 @@ export default function Achievements() {
             </motion.div>
 
             <motion.div
+              className="order-1 lg:order-2"
               initial={{ opacity: 0, x: 30 }}
               animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
               transition={{ duration: 0.7, delay: 0.25 }}
