@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
+import VibeCodingExamples from "@/components/VibeCodingExamples";
 
 type PortfolioProject = {
   id: string;
@@ -438,6 +439,7 @@ export default function Portfolio() {
             </motion.button>
           ))}
         </div>
+        <VibeCodingExamples />
       </div>
 
       <AnimatePresence>

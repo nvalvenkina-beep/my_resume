@@ -19,15 +19,15 @@ export default function Education() {
     <section id="education" className="py-24 bg-white" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
-          className="flex items-center gap-4 mb-14"
+          className="flex items-end gap-4 mb-14"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block px-3 py-1 bg-primary text-black text-xs font-bold uppercase tracking-widest">
+          <span className="text-4xl md:text-6xl font-display font-black text-gray-200 leading-none">06.</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1">
             Образование
-          </span>
-          <div className="flex-1 h-px bg-gray-200" />
+          </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">

@@ -17,7 +17,8 @@ export default function Achievements() {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-display font-bold uppercase tracking-wider mb-1">
+          <span className="text-4xl md:text-6xl font-display font-black text-white/10 leading-none">03.</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1">
             Достижения
           </h2>
         </motion.div>

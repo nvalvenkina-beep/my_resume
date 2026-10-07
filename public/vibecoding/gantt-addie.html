@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Диаграмма Ганта</title>
+  <style>
+    :root {
+      --bg: #e7e5df;
+      --page: #ffffff;
+      --panel: #fbfaf7;
+      --text: #1f2430;
+      --muted: #6b7280;
+      --grid: #efede8;
+      --stripe: #faf9f6;
+      --purple: #5a4fe0;
+      --purple-dark: #473ec3;
+      --track: #eceaf0;
+      --todo: #8a8f9a;
+      --todo-bg: #efeef1;
+      --arrow: #aeacb4;
+      --accent: #2b43db;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 0;
+      background: var(--page);
+      font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .stage {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: var(--page);
+    }
+
+    .chart {
+      position: relative;
+      width: 1540px;
+      height: 1168px;
+      overflow: hidden;
+      background: var(--page);
+      transform-origin: top left;
+    }
+
+    .title-band {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 92px;
+      border-bottom: 1px solid var(--grid);
+      background: var(--page);
+    }
+
+    h1 {
+      position: absolute;
+      left: 40px;
+      top: 20px;
+      margin: 0;
+      font-size: 22px;
+      line-height: 30px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      position: absolute;
+      left: 40px;
+      top: 54px;
+      font-size: 13.5px;
+      line-height: 20px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .left-panel {
+      position: absolute;
+      left: 0;
+      top: 92px;
+      width: 880px;
+      height: 982px;
+      background: var(--panel);
+    }
+
+    .head {
+      position: absolute;
+      top: 112px;
+      height: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .head-addie { left: 38px; width: 52px; }
+    .head-task { left: 128px; width: 170px; }
+    .head-owner { left: 314px; width: 190px; }
+    .head-status { left: 520px; width: 126px; }
+    .head-start { left: 662px; width: 82px; }
+    .head-end { left: 760px; width: 92px; }
+
+    .row-line {
+      position: absolute;
+      left: 0;
+      right: 36px;
+      height: 1px;
+      background: var(--grid);
+      z-index: 2;
+    }
+
+    .row-stripe {
+      position: absolute;
+      left: 880px;
+      width: 580px;
+      height: 56px;
+      background: var(--stripe);
+      z-index: 0;
+    }
+
+    .num {
+      position: absolute;
+      left: 94px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .task-name {
+      position: absolute;
+      left: 128px;
+      width: 170px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      font-size: 12.6px;
+      line-height: 1.22;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .addie-task-cell {
+      position: absolute;
+      left: 38px;
+      width: 52px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 800;
+      z-index: 5;
+    }
+
+    .addie-stage-left {
+      position: absolute;
+      left: 0;
+      width: 880px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      z-index: 4;
+    }
+
+    .addie-stage-right {
+      position: absolute;
+      left: 880px;
+      width: 580px;
+      height: 56px;
+      z-index: 1;
+    }
+
+    .addie-badge {
+      position: absolute;
+      left: 38px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      z-index: 6;
+    }
+
+    .addie-stage-title {
+      position: absolute;
+      left: 94px;
+      width: 360px;
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 800;
+      z-index: 6;
+    }
+
+    .select-wrap {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      z-index: 6;
+    }
+
+    select {
+      width: 100%;
+      min-height: 28px;
+      border: 1px solid rgba(90, 79, 224, .22);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 700;
+      padding: 5px 28px 5px 10px;
+      outline: none;
+      cursor: pointer;
+      text-overflow: ellipsis;
+    }
+
+    select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(90, 79, 224, .14);
+    }
+
+    .status-select {
+      color: var(--purple-dark);
+      background: #efecff;
+      border-color: rgba(90, 79, 224, .25);
+    }
+
+    .date-cell {
+      position: absolute;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 800;
+      z-index: 5;
+    }
+
+    .timeline-month {
+      position: absolute;
+      top: 98px;
+      height: 22px;
+      padding-left: 8px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 3;
+    }
+
+    .timeline-day {
+      position: absolute;
+      top: 123px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid var(--grid);
+      font-size: 8.5px;
+      line-height: 1;
+      font-weight: 700;
+      color: var(--muted);
+      z-index: 3;
+    }
+
+    .grid-line {
+      position: absolute;
+      top: 148px;
+      width: 1px;
+      height: 560px;
+      background: rgba(239, 237, 232, .72);
+      z-index: 1;
+    }
+
+    .grid-line.week {
+      background: #dfddd7;
+    }
+
+    .today-line {
+      position: absolute;
+      top: 144px;
+      width: 2px;
+      height: 594px;
+      background: var(--accent);
+      opacity: .55;
+      z-index: 3;
+    }
+
+    .today-label {
+      position: absolute;
+      top: 126px;
+      width: 60px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10.5px;
+      font-weight: 700;
+      z-index: 4;
+    }
+
+    .bar-track {
+      position: absolute;
+      height: 22px;
+      border-radius: 11px;
+      background: var(--track);
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .bar-track.todo {
+      background: transparent;
+      border: 1.5px dashed var(--todo);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 11px;
+      background: var(--purple);
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+
+    .progress-label {
+      position: absolute;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--purple-dark);
+      z-index: 6;
+    }
+
+    .done-label {
+      position: absolute;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .milestone {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--purple);
+      transform: rotate(45deg);
+      border-radius: 3px;
+      border: 2px solid var(--page);
+      box-shadow: 0 1px 3px rgba(0,0,0,.18);
+      z-index: 7;
+    }
+
+    .milestone-label {
+      position: absolute;
+      width: 170px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      font-size: 11.5px;
+      line-height: 1.1;
+      font-weight: 700;
+      color: var(--purple);
+      white-space: nowrap;
+      z-index: 7;
+    }
+
+    .dependency-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .footer-line {
+      position: absolute;
+      left: 0;
+      top: 1074px;
+      width: 1540px;
+      height: 1px;
+      background: var(--grid);
+    }
+
+    .legend {
+      position: absolute;
+      left: 40px;
+      top: 1096px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      white-space: nowrap;
+    }
+
+    .legend-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 4px;
+      background: var(--purple);
+    }
+
+    .legend-diamond {
+      width: 13px;
+      height: 13px;
+      border-radius: 2px;
+      background: var(--purple);
+      transform: rotate(45deg);
+    }
+
+    .legend-today {
+      width: 2px;
+      height: 15px;
+      background: var(--accent);
+      opacity: .6;
+    }
+
+    .legend-track {
+      width: 22px;
+      height: 12px;
+      border-radius: 6px;
+      background: var(--track);
+    }
+
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="Диаграмма Ганта">
+    <section class="chart" id="chart">
+      <div class="title-band"></div>
+      <h1>Запуск онлайн-курса «Образовательный проект»</h1>
+      <div class="subtitle" id="subtitle"></div>
+      <div class="left-panel"></div>
+      <div class="head head-addie">ADDIE</div>
+      <div class="head head-task">Задача</div>
+      <div class="head head-owner">Ответственный</div>
+      <div class="head head-status">Статус</div>
+      <div class="head head-start">Начало</div>
+      <div class="head head-end">Окончание</div>
+      <svg class="dependency-layer" id="dependencies" width="1540" height="1168" viewBox="0 0 1540 1168"></svg>
+      <div class="footer-line"></div>
+      <div class="legend" aria-label="Условные обозначения">
+        <div class="legend-item">
+          <svg width="34" height="14" viewBox="0 0 34 14" aria-hidden="true">
+            <path d="M2 7 H26" stroke="#aeacb4" stroke-width="1.6" fill="none"></path>
+            <polygon points="26,7 19,3.5 19,10.5" fill="#aeacb4"></polygon>
+          </svg>
+          <span>Зависимость задач</span>
+        </div>
+        <div class="legend-item"><span class="legend-diamond"></span><span>Контрольная точка</span></div>
+        <div class="legend-item"><span class="legend-today"></span><span>Текущая дата</span></div>
+        <div class="legend-item"><span class="legend-track"></span><span>Заливка = % выполнения</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tasks = [
+      { name:'Конкурентный анализ программ', owner:'Аналитик | Анна К.', start:0,  end:7,  status:'done',     progress:1,   deps:[] },
+      { name:'Анализ целевой аудитории',     owner:'Методист | Мария Л.', start:5,  end:14, status:'done',     progress:1,   deps:[],     milestone:{ day:14, label:'ЦА проанализирована' } },
+      { name:'Концепция курса',              owner:'Методист | Мария Л.', start:14, end:21, status:'done',     progress:1,   deps:[1],    milestone:{ day:21, label:'Концепция согласована' } },
+      { name:'Программа курса',              owner:'Методист | Мария Л.', start:21, end:32, status:'progress', progress:.7,  deps:[2] },
+      { name:'Сценарии уроков',              owner:'Методист | Мария Л.', start:28, end:42, status:'progress', progress:.3,  deps:[3] },
+      { name:'Дизайн материалов',            owner:'Дизайнер | Дмитрий В.', start:42, end:53, status:'todo', progress:0, deps:[4] },
+      { name:'Согласование материалов',      owner:'Эксперт | Егор С.', start:50, end:56, status:'todo', progress:0, deps:[5], milestone:{ day:56, label:'Материалы согласованы' } },
+      { name:'Загрузка уроков в LMS',        owner:'LMS-специалист | Лев П.', start:56, end:63, status:'todo', progress:0, deps:[6] },
+      { name:'PR-кампания курса',            owner:'Маркетолог | Полина Р.', start:49, end:63, status:'todo', progress:0, deps:[] },
+      { name:'Тестовый запуск',              owner:'Менеджер | Кирилл М.', start:63, end:70, status:'todo', progress:0, deps:[7,8], milestone:{ day:70, label:'Тестовый запуск' } },
+      { name:'Оценка эффективности курса',   owner:'Методист | Мария Л.', start:70, end:72, status:'todo', progress:0, deps:[9] }
+    ];
+
+    const owners = [
+      'Аналитик | Анна К.',
+      'Методист | Мария Л.',
+      'Дизайнер | Дмитрий В.',
+      'Эксперт | Егор С.',
+      'LMS-специалист | Лев П.',
+      'Маркетолог | Полина Р.',
+      'Менеджер | Кирилл М.'
+    ];
+
+    const statuses = {
+      done: 'Готово',
+      progress: 'В процессе',
+      todo: 'Не начато'
+    };
+
+    const addieStages = [
+      { key:'analysis', letter:'A', number:'1.', title:'Анализ', color:'#7c3aed', bg:'rgba(124, 58, 237, 0.12)', tasks:[0, 1] },
+      { key:'design', letter:'D', number:'2.', title:'Проектирование', color:'#2563eb', bg:'rgba(37, 99, 235, 0.12)', tasks:[2, 3] },
+      { key:'development', letter:'D', number:'3.', title:'Разработка', color:'#0891b2', bg:'rgba(8, 145, 178, 0.12)', tasks:[4, 5, 6] },
+      { key:'implementation', letter:'I', number:'4.', title:'Внедрение', color:'#059669', bg:'rgba(5, 150, 105, 0.12)', tasks:[7, 8, 9] },
+      { key:'evaluation', letter:'E', number:'5.', title:'Оценка', color:'#d97706', bg:'rgba(217, 119, 6, 0.12)', tasks:[10] }
+    ];
+
+    const rows = [];
+    const taskMeta = tasks.map(() => ({}));
+    addieStages.forEach(stage => {
+      rows.push({ type:'stage', stage });
+      stage.tasks.forEach(taskIndex => {
+        taskMeta[taskIndex] = { stage, rowIndex: rows.length };
+        rows.push({ type:'task', taskIndex, stage });
+      });
+    });
+
+    const chart = document.getElementById('chart');
+    const stage = document.querySelector('.stage');
+    const depsSvg = document.getElementById('dependencies');
+    const W = 1540;
+    const H = 1168;
+    const L = 880;
+    const rightPad = 80;
+    const days = 74;
+    const dpx = (W - rightPad - L) / days;
+    const headTop = 92;
+    const rowTop = 148;
+    const rowH = 56;
+    const barH = 22;
+    const monthNames = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+    const shortMonths = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+    const today = new Date();
+    const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endDate = addDays(startDate, days);
+
+    function addDays(date, amount) {
+      const next = new Date(date);
+      next.setDate(next.getDate() + amount);
+      return next;
+    }
+
+    function fmt(date) {
+      return String(date.getDate()).padStart(2, '0') + ' ' + shortMonths[date.getMonth()] + ' ' + date.getFullYear();
+    }
+
+    function fmtShort(date) {
+      return String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0');
+    }
+
+    function x(day) {
+      return L + day * dpx;
+    }
+
+    function cy(index) {
+      return rowTop + taskMeta[index].rowIndex * rowH + rowH / 2;
+    }
+
+    function node(tag, className, style, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      Object.assign(el.style, style || {});
+      if (text !== undefined) el.textContent = text;
+      chart.appendChild(el);
+      return el;
+    }
+
+    function abs(left, top, width, height) {
+      return { position:'absolute', left:left + 'px', top:top + 'px', width:width + 'px', height:height + 'px' };
+    }
+
+    function buildSelect(values, current, className, label) {
+      const select = document.createElement('select');
+      select.className = className || '';
+      select.setAttribute('aria-label', label);
+      values.forEach(item => {
+        const value = typeof item === 'string' ? item : item.value;
+        const text = typeof item === 'string' ? item : item.label;
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = text;
+        option.selected = value === current;
+        select.appendChild(option);
+      });
+      return select;
+    }
+
+    function renderHeader() {
+      document.getElementById('subtitle').textContent = fmt(startDate) + ' — ' + fmt(endDate);
+
+      let segStart = 0;
+      let month = startDate.getMonth();
+      for (let d = 1; d <= days; d++) {
+        const m = addDays(startDate, d).getMonth();
+        if (d === days || m !== month) {
+          node('div', 'timeline-month', abs(x(segStart), headTop + 6, (d - segStart) * dpx, 22), monthNames[month]);
+          segStart = d;
+          month = m;
+        }
+      }
+
+      for (let d = 0; d < days; d++) {
+        const date = addDays(startDate, d);
+        const day = node('div', 'timeline-day', abs(x(d), headTop + 31, dpx, 18), String(date.getDate()));
+        if (date.getDay() === 1 || d === 0) day.style.borderLeftColor = '#dfddd7';
+        node('div', 'grid-line' + ((date.getDay() === 1 || d === 0) ? ' week' : ''), abs(x(d), rowTop, 1, rowH * rows.length));
+      }
+      node('div', 'grid-line week', abs(x(days), rowTop, 1, rowH * rows.length));
+
+      const todayOffset = Math.floor((new Date(today.getFullYear(), today.getMonth(), today.getDate()) - startDate) / 86400000);
+      if (todayOffset >= 0 && todayOffset <= days) {
+        node('div', 'today-line', abs(x(todayOffset), headTop + 52, 2, rowH * rows.length + 34));
+        node('div', 'today-label', abs(x(todayOffset) - 30, headTop + 34, 60, 18), 'Сегодня');
+      }
+    }
+
+    function renderRows() {
+      rows.forEach((row, rowIndex) => {
+        const y = rowTop + rowIndex * rowH;
+        if (row.type === 'stage') {
+          const left = node('div', 'addie-stage-left', abs(0, y, L, rowH));
+          left.style.background = row.stage.color;
+          node('div', 'addie-stage-right', abs(L, y, W - rightPad - L, rowH)).style.background = row.stage.bg;
+          const badge = node('div', 'addie-badge', abs(38, y + 12, 32, 32), row.stage.letter);
+          badge.style.background = row.stage.color;
+          node('div', 'addie-stage-title', abs(94, y + 17, 360, 20), row.stage.title);
+          node('div', 'row-line', abs(0, y + rowH, W - 36, 1));
+          return;
+        }
+
+        const index = row.taskIndex;
+        const task = tasks[index];
+        if (rowIndex % 2 === 1) node('div', 'row-stripe', abs(L, y, W - rightPad - L, rowH));
+        node('div', 'row-line', abs(0, y + rowH, W - 36, 1));
+        const addieCell = node('div', 'addie-task-cell', abs(38, y + 16, 52, 24), row.stage.letter);
+        addieCell.style.color = row.stage.color;
+        node('div', 'num', abs(94, y + rowH / 2 - 13, 26, 26), String(index + 1));
+        node('div', 'task-name', abs(128, y + 10, 170, 36), task.name);
+
+        const ownerWrap = node('div', 'select-wrap', abs(314, y + 13, 190, 30));
+        ownerWrap.appendChild(buildSelect(owners, task.owner, '', 'Ответственный за задачу ' + (index + 1)));
+
+        const statusWrap = node('div', 'select-wrap', abs(520, y + 13, 126, 30));
+        statusWrap.appendChild(buildSelect(Object.entries(statuses).map(([value, label]) => ({ value, label })), task.status, 'status-select', 'Статус задачи ' + (index + 1)));
+
+        node('div', 'date-cell', abs(662, y + 13, 82, 30), fmtShort(addDays(startDate, task.start)));
+        node('div', 'date-cell', abs(760, y + 13, 92, 30), fmtShort(addDays(startDate, task.end)));
+      });
+    }
+
+    function renderDependencies() {
+      tasks.forEach((task, index) => {
+        (task.deps || []).forEach(depIndex => {
+          const dep = tasks[depIndex];
+          const startX = x(dep.end);
+          const startY = cy(depIndex);
+          const endX = x(task.start);
+          const endY = cy(index);
+          const bend = Math.min(startX + 11, endX - 12);
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', `M ${startX} ${startY} H ${bend} V ${endY} H ${endX - 2}`);
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', '#aeacb4');
+          path.setAttribute('stroke-width', '1.6');
+          depsSvg.appendChild(path);
+
+          const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          arrow.setAttribute('points', `${endX},${endY} ${endX - 8},${endY - 4.5} ${endX - 8},${endY + 4.5}`);
+          arrow.setAttribute('fill', '#aeacb4');
+          depsSvg.appendChild(arrow);
+        });
+      });
+    }
+
+    function renderBars() {
+      tasks.forEach((task, index) => {
+        const bx = x(task.start);
+        const bw = (task.end - task.start) * dpx;
+        const by = cy(index) - barH / 2;
+        const color = taskMeta[index].stage.color;
+        const track = node('div', 'bar-track' + (task.status === 'todo' ? ' todo' : ''), abs(bx, by, bw, barH));
+        if (task.status === 'todo') track.style.borderColor = color;
+
+        if (task.status !== 'todo' && task.progress > 0) {
+          const fill = document.createElement('div');
+          fill.className = 'bar-fill';
+          fill.style.width = Math.max(bw * task.progress, 6) + 'px';
+          fill.style.background = color;
+          track.appendChild(fill);
+        }
+
+        if (task.status === 'progress') {
+          const label = node('div', 'progress-label', abs(bx + bw + 8, cy(index) - 9, 60, 18), Math.round(task.progress * 100) + '%');
+          label.style.color = color;
+        }
+
+        if (task.status === 'done') {
+          node('div', 'done-label', abs(bx, by, bw, barH), bw > 70 ? '100%' : '');
+        }
+      });
+    }
+
+    function renderMilestones() {
+      tasks.forEach((task, index) => {
+        if (!task.milestone) return;
+        const mx = x(task.milestone.day);
+        const my = cy(index);
+        node('div', 'milestone', abs(mx - 9, my - 9, 18, 18));
+        const leftSide = mx + 190 > W - 24;
+        const labelLeft = leftSide ? Math.min(mx, x(task.start)) - 16 - 170 : mx + 16;
+        const label = node('div', 'milestone-label', abs(labelLeft, my - 9, 170, 18), task.milestone.label);
+        if (leftSide) {
+          label.style.justifyContent = 'flex-end';
+          label.style.textAlign = 'right';
+        }
+      });
+    }
+
+    renderHeader();
+    renderRows();
+    renderDependencies();
+    renderBars();
+    renderMilestones();
+
+    function fitChart() {
+      const scaleX = window.innerWidth / W;
+      const scaleY = window.innerHeight / H;
+      const scale = Math.min(scaleX, scaleY);
+      stage.style.width = (W * scale) + 'px';
+      stage.style.height = (H * scale) + 'px';
+      chart.style.transform = 'scale(' + scale + ')';
+    }
+
+    fitChart();
+    window.addEventListener('resize', fitChart);
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(fitChart).observe(stage.parentElement || document.body);
+    }
+  </script>
+</body>
+</html>

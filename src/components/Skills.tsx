@@ -72,7 +72,7 @@ export default function Skills() {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-4xl md:text-6xl font-display font-black text-gray-100 leading-none">03.</span>
+          <span className="text-4xl md:text-6xl font-display font-black text-gray-100 leading-none">04.</span>
           <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1">Навыки</h2>
         </motion.div>
 

@@ -17,6 +17,7 @@ export default function Navigation() {
   const navItems = [
     { name: "Обо мне", href: "#about" },
     { name: "Портфолио", href: "#portfolio" },
+    { name: "Примеры работ", href: "#work-samples" },
     { name: "Навыки", href: "#skills" },
     { name: "Опыт", href: "#experience" },
     { name: "Контакты", href: "#contact" },
@@ -43,13 +44,14 @@ export default function Navigation() {
         <a 
           href="#hero" 
           onClick={(e) => { e.preventDefault(); scrollTo("#hero"); }}
-          className="font-display font-bold text-xl tracking-tighter"
+          className="flex max-w-[calc(100%-3rem)] items-center gap-2 font-display text-sm font-bold tracking-tight sm:text-base lg:text-lg"
         >
-          AD<span className="text-primary">.</span>
+          <span className="sm:whitespace-nowrap">Анастасия Дубинина</span>
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8">
+        <nav className="hidden xl:flex gap-6">
           {navItems.map((item) => (
             <a
               key={item.name}
@@ -64,7 +66,9 @@ export default function Navigation() {
 
         {/* Mobile Menu Toggle */}
         <button 
-          className="md:hidden p-2"
+          className="xl:hidden p-2"
+          aria-label={mobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+          aria-expanded={mobileMenuOpen}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X /> : <Menu />}
@@ -78,7 +82,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-gray-100 overflow-hidden"
+            className="xl:hidden bg-white border-b border-gray-100 overflow-hidden"
           >
             <nav className="flex flex-col py-4 px-6 gap-4">
               {navItems.map((item) => (

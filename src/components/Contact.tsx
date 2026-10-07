@@ -16,16 +16,16 @@ export default function Contact() {
           transition={{ duration: 0.7 }}
         >
           <div className="flex items-end gap-4 mb-8">
-            <span className="text-4xl md:text-6xl font-display font-black text-black/10 leading-none">05.</span>
+            <span className="text-4xl md:text-6xl font-display font-black text-black/10 leading-none">07.</span>
             <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1 text-black">Контакты</h2>
           </div>
 
-          <h3 className="text-5xl md:text-7xl font-display font-black uppercase leading-tight text-black mb-8">
+          <h3 className="text-[clamp(1.8rem,8vw,4.5rem)] font-display font-black uppercase leading-tight text-black mb-8">
             Напишите мне
           </h3>
 
           <p className="text-black/70 text-xl mb-12 max-w-lg">
-            Открыта к&nbsp;новым проектам и&nbsp;сотрудничеству. Буду рада обсудить задачи в&nbsp;области методологии и&nbsp;управления образовательными продуктами.
+            Открыта к&nbsp;новым проектам и&nbsp;сотрудничеству. Буду рада обсудить задачи в&nbsp;области методологии и&nbsp;создания цифровых продуктов.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-16 flex-wrap">
@@ -36,6 +36,14 @@ export default function Contact() {
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-black bg-transparent text-black font-bold uppercase tracking-wider text-sm hover:bg-black hover:text-white transition-colors duration-300"
             >
               Telegram
+            </a>
+            <a
+              href="https://t.me/aishnica_pro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-black bg-transparent text-black font-bold uppercase tracking-wider text-sm hover:bg-black hover:text-white transition-colors duration-300"
+            >
+              Мой Telegram-канал
             </a>
             <button
               onClick={() => setShowPhone((v) => !v)}
@@ -53,7 +61,7 @@ export default function Contact() {
 
           <div className="border-t-2 border-black/20 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <span className="font-display font-black text-lg text-black">Дубинина Анастасия</span>
-            <span className="text-black/60 text-sm uppercase tracking-widest">Методолог · Менеджер в&nbsp;образовании</span>
+            <span className="text-black/60 text-sm uppercase tracking-widest">Цифровой методолог</span>
           </div>
         </motion.div>
       </div>

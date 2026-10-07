@@ -54,10 +54,12 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             <h2 className="text-2xl md:text-3xl font-display font-medium text-gray-800 mb-4">
-              Методолог &bull; Менеджер в&nbsp;образовании
+              Цифровой методолог
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-lg border-l-4 border-primary pl-5 mb-8">
-              Специалист в&nbsp;онлайн-образовании<br />с&nbsp;T-shape экспертизой.
+              Разрабатываю обучение, ориентированное на&nbsp;результат.<br /><br />
+              С&nbsp;AI подхожу к&nbsp;задачам комплексно и&nbsp;быстрее воплощаю идеи в&nbsp;системные решения.<br /><br />
+              Создаю цифровые продукты с&nbsp;помощью ИИ-агентов и&nbsp;вайбкодинга.
             </p>
             <a
               href="#contact"
