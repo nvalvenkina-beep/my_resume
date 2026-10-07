@@ -16,7 +16,7 @@ export default function Contact() {
           transition={{ duration: 0.7 }}
         >
           <div className="flex items-end gap-4 mb-8">
-            <span className="text-4xl md:text-6xl font-display font-black text-black/10 leading-none">07.</span>
+            <span className="text-4xl md:text-6xl font-display font-black text-black/10 leading-none">06.</span>
             <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1 text-black">Контакты</h2>
           </div>
 

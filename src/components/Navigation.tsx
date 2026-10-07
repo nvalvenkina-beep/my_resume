@@ -19,7 +19,6 @@ export default function Navigation() {
     { name: "Портфолио", href: "#portfolio" },
     { name: "Примеры работ", href: "#work-samples" },
     { name: "Навыки", href: "#skills" },
-    { name: "Опыт", href: "#experience" },
     { name: "Контакты", href: "#contact" },
   ];
 

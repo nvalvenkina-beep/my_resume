@@ -24,7 +24,7 @@ export default function Education() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-4xl md:text-6xl font-display font-black text-gray-200 leading-none">06.</span>
+          <span className="text-4xl md:text-6xl font-display font-black text-gray-200 leading-none">05.</span>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold uppercase tracking-wider mb-1">
             Образование
           </h2>
