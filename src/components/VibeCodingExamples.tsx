@@ -104,15 +104,15 @@ export default function VibeCodingExamples() {
               <>
                 <div className="shrink-0 border-b border-white/15 p-5 pr-16 md:p-7 md:pr-16">
                   <Dialog.Title className="font-display text-xl font-bold md:text-2xl">{active.title}</Dialog.Title>
-                  <Dialog.Description className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70">{active.description}</Dialog.Description>
+                  <Dialog.Description className="mt-3 max-w-3xl text-base leading-relaxed text-white/70">{active.description}</Dialog.Description>
                   {active.link && (
-                    <a href={active.link.url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-sm text-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-primary">
+                    <a href={active.link.url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-base text-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-primary">
                       {active.link.label}<ArrowUpRight size={16} aria-hidden="true" />
                     </a>
                   )}
                 </div>
                 {imageExpanded && (
-                  <button type="button" onClick={() => setImageExpanded(false)} className="shrink-0 border-b border-white/15 px-5 py-3 text-left text-sm text-primary focus-visible:outline-2 focus-visible:outline-primary">
+                  <button type="button" onClick={() => setImageExpanded(false)} className="shrink-0 border-b border-white/15 px-5 py-3 text-left text-base text-primary focus-visible:outline-2 focus-visible:outline-primary">
                     ← Вернуться к галерее
                   </button>
                 )}
@@ -128,20 +128,20 @@ export default function VibeCodingExamples() {
                       ) : (
                         <button type="button" onClick={() => setImageExpanded(true)} aria-label="Увеличить изображение" className="block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-primary">
                           <img src={asset(active.images[imageIndex])} alt={`${active.title} — пример ${imageIndex + 1}`} className="mx-auto max-h-[55dvh] w-full object-contain" />
-                          <span className="mt-3 block text-sm text-primary">Увеличить изображение</span>
+                          <span className="mt-3 block text-base text-primary">Увеличить изображение</span>
                         </button>
                       )}
                       {!imageExpanded && active.images.length > 1 && (
                         <div className="mt-5 flex items-center justify-between gap-4">
                           <button type="button" onClick={() => setImageIndex((imageIndex - 1 + active.images.length) % active.images.length)} aria-label="Предыдущее изображение" className="border border-white/25 p-2 hover:border-primary focus-visible:outline-2 focus-visible:outline-primary"><ChevronLeft size={20} /></button>
-                          <span className="text-sm text-white/70" aria-live="polite">{imageIndex + 1} / {active.images.length}</span>
+                          <span className="text-base text-white/70" aria-live="polite">{imageIndex + 1} / {active.images.length}</span>
                           <button type="button" onClick={() => setImageIndex((imageIndex + 1) % active.images.length)} aria-label="Следующее изображение" className="border border-white/25 p-2 hover:border-primary focus-visible:outline-2 focus-visible:outline-primary"><ChevronRight size={20} /></button>
                         </div>
                       )}
                     </>
                   )}
                 </div>
-                <Dialog.Close className="shrink-0 border-t border-white/15 px-5 py-3 text-left text-sm text-primary hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-primary">← Вернуться к примерам</Dialog.Close>
+                <Dialog.Close className="shrink-0 border-t border-white/15 px-5 py-3 text-left text-base text-primary hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-primary">← Вернуться к примерам</Dialog.Close>
               </>
             )}
             <Dialog.Close aria-label="Закрыть пример" className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center border border-white/25 hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-primary"><X size={18} /></Dialog.Close>

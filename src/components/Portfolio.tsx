@@ -463,7 +463,7 @@ export default function Portfolio() {
               <div className="flex items-start justify-between border-b border-white/10 bg-black px-6 py-5">
                 <div>
                   <h3 id="portfolio-modal-title" className="text-2xl font-display font-black uppercase">{active.title}</h3>
-                  <p className="mt-2 text-sm text-white/70 max-w-2xl">{active.subtitle}</p>
+                  <p className="mt-2 text-base text-white/70 max-w-2xl">{active.subtitle}</p>
                 </div>
                 <button
                   type="button"
@@ -481,7 +481,7 @@ export default function Portfolio() {
                     <h4 className="text-xl font-display font-black uppercase">
                       {activePage === 0 ? "О курсе" : "Что сделано"}
                     </h4>
-                    <div className="mt-4 text-sm leading-7 text-white/75" style={{ whiteSpace: "pre-line" }}>
+                    <div className="mt-4 text-base leading-7 text-white/75" style={{ whiteSpace: "pre-line" }}>
                       {activePage === 0 ? active.screen1Text : active.screen2Text}
                     </div>
                   </div>
@@ -495,7 +495,7 @@ export default function Portfolio() {
                         key={button.page}
                         type="button"
                         onClick={() => setActivePage(button.page)}
-                        className={`rounded-none border px-4 py-4 text-sm uppercase tracking-[0.3em] transition ${
+                        className={`rounded-none border px-4 py-4 text-base uppercase tracking-[0.3em] transition ${
                           activePage === button.page
                             ? "border-primary bg-primary text-black"
                             : "border-white/10 bg-white/5 text-white/80 hover:border-primary hover:text-white"
@@ -509,7 +509,7 @@ export default function Portfolio() {
                         href={active.detailsLink.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded-none border border-transparent bg-amber-400 px-4 py-4 text-sm uppercase tracking-[0.3em] text-black text-center hover:bg-amber-300"
+                        className="rounded-none border border-transparent bg-amber-400 px-4 py-4 text-base uppercase tracking-[0.3em] text-black text-center hover:bg-amber-300"
                       >
                         {active.detailsLink.label}
                       </a>

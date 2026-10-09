@@ -4,7 +4,7 @@ import { useRef } from "react";
 const courses = [
   { year: "2026", title: "Конференция Learning Elements" },
   { year: "2026", title: "Вайбкодинг", org: "Zerocoder" },
-  { year: "2025–2026", title: "Методолог онлайн-курсов", org: "Нетология", current: true },
+  { year: "2025–2026", title: "Методолог онлайн-курсов", org: "Нетология" },
   { year: "2025", title: "Андрагогика: основы", org: "курс Михаила Осипова" },
   { year: "2023", title: "Куратор дистанционного / онлайн-обучения", org: "РАНХиГС" },
   { year: "2021", title: "Акселерационная программа", org: "Акселератор стартапов МФТИ" },
@@ -71,11 +71,6 @@ export default function Education() {
                     </span>
                     {c.org && (
                       <span className="text-sm text-gray-500"> · {c.org}</span>
-                    )}
-                    {c.current && (
-                      <span className="ml-2 inline-block px-2 py-0.5 bg-primary text-black text-[10px] font-bold uppercase tracking-wider align-middle">
-                        текущее
-                      </span>
                     )}
                   </div>
                 </motion.div>
